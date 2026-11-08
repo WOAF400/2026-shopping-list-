@@ -60,8 +60,8 @@ h2{font-size:12.5px;font-weight:700;color:var(--muted);margin:16px 2px 6px;displ
 .tag{flex:none;font-family:var(--font-mono);font-weight:600;font-size:15px;padding:5px 7px;border-radius:6px;min-width:70px;text-align:center;border:0;cursor:pointer}
 .tag.B{background:var(--br-soft);color:var(--br)} .tag.F{background:var(--fo-soft);color:var(--fo)}
 .lbl{flex:1;min-width:0}
-.lbl b{font-weight:500;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lbl span{font-size:12px;color:var(--muted);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbl b{font-weight:500;display:block;word-break:keep-all;overflow-wrap:anywhere;line-height:1.3}
+.lbl span{font-size:12px;color:var(--muted);display:block;word-break:keep-all;overflow-wrap:anywhere;line-height:1.35;margin-top:1px}
 .lbl .ok{color:var(--pine);font-weight:700}
 .step{flex:none;display:flex;align-items:center;gap:2px}
 .step button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:20px;line-height:1;cursor:pointer}
@@ -75,6 +75,7 @@ h2{font-size:12.5px;font-weight:700;color:var(--muted);margin:16px 2px 6px;displ
 .more .all{border:1px solid var(--pine);color:var(--pine);background:none;border-radius:8px;padding:8px 10px;font:700 13px var(--font-body);cursor:pointer}
 .empty{padding:40px 0;text-align:center;color:var(--muted)}
 button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--berry);outline-offset:2px}
+@media (max-width:420px){.row{gap:8px;padding-left:8px;padding-right:6px}.tag{font-size:13.5px;min-width:0;padding:5px 6px}.step button{width:36px;height:36px}.step output{min-width:32px;font-size:13px}}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style>
 </head>
