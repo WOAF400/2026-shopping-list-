@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>성탄 선물 구매 체크리스트</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: compact sticky header (title+progress, team chips, one toggle); single-line rows: mark · label · stepper. Phone-first. */
+:root{
+  --bg:#f2f4f2; --surface:#fff; --fg:#1b2420; --muted:#66726c; --line:#dfe4e0;
+  --pine:#1f5c46; --berry:#b0283f; --berry-soft:#f8e3e7;
+  --br:#2d5f8a; --br-soft:#e2ecf5; --fo:#8a5a12; --fo-soft:#f6ecd9; --done:#e8ede9;
+  --font-body:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111614; --surface:#1a211e; --fg:#e6ece8; --muted:#97a39c; --line:#2c3632;
+  --pine:#6cc39d; --berry:#ec7f92; --berry-soft:#3a1d24;
+  --br:#8bb8e0; --br-soft:#1b2a38; --fo:#e2b56a; --fo-soft:#33281a; --done:#151b18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111614; --surface:#1a211e; --fg:#e6ece8; --muted:#97a39c; --line:#2c3632;
+  --pine:#6cc39d; --berry:#ec7f92; --berry-soft:#3a1d24;
+  --br:#8bb8e0; --br-soft:#1b2a38; --fo:#e2b56a; --fo-soft:#33281a; --done:#151b18; color-scheme:dark}
+*{box-sizing:border-box}html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header .wrap{padding-block:10px;display:grid;gap:8px}
+.top{display:flex;align-items:center;gap:10px}
+h1{margin:0;font-size:16px;font-weight:700;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.count{font-variant-numeric:tabular-nums;font-weight:700;font-size:14px;color:var(--pine);white-space:nowrap}
+.count small{color:var(--muted);font-weight:500}
+.bar{height:5px;border-radius:9px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--pine);transition:width .3s}
+.chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-inline:-2px;padding:2px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:6px 12px;font:700 13.5px var(--font-body);cursor:pointer;min-height:36px;display:flex;align-items:center;gap:6px}
+.chip small{font-weight:500;color:var(--muted);font-variant-numeric:tabular-nums}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--c)}
+.chip[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:var(--surface)}
+.chip[aria-pressed="true"] small{color:var(--surface);opacity:.8}
+.sub{display:flex;justify-content:flex-end;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.toggle{display:flex;align-items:center;gap:6px;cursor:pointer;color:var(--fg);font-weight:500}
+.toggle input{width:18px;height:18px;accent-color:var(--pine);margin:0}
+details.key summary{cursor:pointer;list-style:none}
+details.key summary::-webkit-details-marker{display:none}
+details.key summary::after{content:" ▾"}
+.keybox{margin-top:6px;padding:8px 10px;border-radius:8px;background:var(--bg);color:var(--fg);line-height:1.6}
+.keybox b{font-family:var(--font-mono)}
+.notice{margin:10px 0 0;padding:9px 11px;border-radius:8px;background:var(--berry-soft);font-size:13px}
+main .wrap{padding-block:0 40px}
+h2{font-size:12.5px;font-weight:700;color:var(--muted);margin:16px 2px 6px;display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.item+.item{border-top:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:10px;padding:8px 8px 8px 10px;min-height:56px}
+.item.done{background:var(--done)}
+.item.done .tag,.item.done .lbl{opacity:.5}
+.tag{flex:none;font-family:var(--font-mono);font-weight:600;font-size:15px;padding:5px 7px;border-radius:6px;min-width:70px;text-align:center;border:0;cursor:pointer}
+.tag.B{background:var(--br-soft);color:var(--br)} .tag.F{background:var(--fo-soft);color:var(--fo)}
+.lbl{flex:1;min-width:0}
+.lbl b{font-weight:500;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbl span{font-size:12px;color:var(--muted);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbl .ok{color:var(--pine);font-weight:700}
+.step{flex:none;display:flex;align-items:center;gap:2px}
+.step button{width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:20px;line-height:1;cursor:pointer}
+.step button.plus{background:var(--pine);border-color:var(--pine);color:var(--surface)}
+.step button:disabled{opacity:.3;cursor:default}
+.step output{min-width:38px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
+.more{display:flex;gap:8px;align-items:center;padding:0 10px 10px;flex-wrap:wrap}
+.more[hidden]{display:none}
+.more input{flex:1 1 160px;min-width:0;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:8px;padding:8px 10px;font:14px var(--font-body)}
+.more select{border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:8px;padding:8px;font:500 14px var(--font-body)}
+.more .all{border:1px solid var(--pine);color:var(--pine);background:none;border-radius:8px;padding:8px 10px;font:700 13px var(--font-body);cursor:pointer}
+.empty{padding:40px 0;text-align:center;color:var(--muted)}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--berry);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body style="margin:0">
+<header><div class="wrap">
+  <div class="top"><h1>성탄 선물 구매</h1><div class="count" id="count"></div></div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+  <div class="chips" id="chips" role="group" aria-label="담당 팀"></div>
+</div></header>
+<main><div class="wrap">
+  <p class="notice" id="notice" hidden></p>
+  <div id="list"></div>
+</div></main>
+<script>
+const GROUPS=[{"c":"B-B-4m","b":"B","a":0,"al":"4개월","g":"B","n":1},{"c":"B-B-1","b":"B","a":1,"al":"1세","g":"B","n":3},{"c":"B-G-1","b":"B","a":1,"al":"1세","g":"G","n":2},{"c":"B-B-2","b":"B","a":2,"al":"2세","g":"B","n":2},{"c":"B-G-2","b":"B","a":2,"al":"2세","g":"G","n":1},{"c":"B-B-3","b":"B","a":3,"al":"3세","g":"B","n":1},{"c":"B-G-3","b":"B","a":3,"al":"3세","g":"G","n":2},{"c":"B-?-3","b":"B","a":3,"al":"3세","g":"?","n":1},{"c":"B-B-4","b":"B","a":4,"al":"4세","g":"B","n":2},{"c":"B-G-4","b":"B","a":4,"al":"4세","g":"G","n":1},{"c":"B-B-5","b":"B","a":5,"al":"5세","g":"B","n":2},{"c":"B-G-5","b":"B","a":5,"al":"5세","g":"G","n":4},{"c":"B-B-6","b":"B","a":6,"al":"6세","g":"B","n":1},{"c":"B-G-6","b":"B","a":6,"al":"6세","g":"G","n":1},{"c":"B-?-6","b":"B","a":6,"al":"6세","g":"?","n":1},{"c":"B-B-7","b":"B","a":7,"al":"7세","g":"B","n":5},{"c":"B-G-7","b":"B","a":7,"al":"7세","g":"G","n":4},{"c":"B-B-8","b":"B","a":8,"al":"8세","g":"B","n":1},{"c":"B-G-8","b":"B","a":8,"al":"8세","g":"G","n":3},{"c":"B-B-9","b":"B","a":9,"al":"9세","g":"B","n":6},{"c":"B-G-9","b":"B","a":9,"al":"9세","g":"G","n":3},{"c":"B-B-10","b":"B","a":10,"al":"10세","g":"B","n":4},{"c":"B-G-10","b":"B","a":10,"al":"10세","g":"G","n":3},{"c":"B-?-10","b":"B","a":10,"al":"10세","g":"?","n":1},{"c":"B-B-11","b":"B","a":11,"al":"11세","g":"B","n":4},{"c":"B-G-11","b":"B","a":11,"al":"11세","g":"G","n":2},{"c":"B-B-12","b":"B","a":12,"al":"12세","g":"B","n":2},{"c":"B-G-12","b":"B","a":12,"al":"12세","g":"G","n":2},{"c":"B-B-13","b":"B","a":13,"al":"13세","g":"B","n":2},{"c":"B-G-13","b":"B","a":13,"al":"13세","g":"G","n":6},{"c":"B-B-14","b":"B","a":14,"al":"14세","g":"B","n":3},{"c":"B-G-14","b":"B","a":14,"al":"14세","g":"G","n":5},{"c":"B-?-14","b":"B","a":14,"al":"14세","g":"?","n":1},{"c":"B-B-15","b":"B","a":15,"al":"15세","g":"B","n":4},{"c":"B-G-15","b":"B","a":15,"al":"15세","g":"G","n":5},{"c":"B-B-16","b":"B","a":16,"al":"16세","g":"B","n":8},{"c":"B-G-16","b":"B","a":16,"al":"16세","g":"G","n":3},{"c":"B-B-17","b":"B","a":17,"al":"17세","g":"B","n":4},{"c":"B-G-17","b":"B","a":17,"al":"17세","g":"G","n":5},{"c":"B-B-18","b":"B","a":18,"al":"18세","g":"B","n":6},{"c":"B-G-18","b":"B","a":18,"al":"18세","g":"G","n":4},{"c":"F-G-3m","b":"F","a":0,"al":"3개월","g":"G","n":1},{"c":"F-G-1","b":"F","a":1,"al":"1세","g":"G","n":1},{"c":"F-B-2","b":"F","a":2,"al":"2세","g":"B","n":4},{"c":"F-G-3","b":"F","a":3,"al":"3세","g":"G","n":1},{"c":"F-B-5","b":"F","a":5,"al":"5세","g":"B","n":3},{"c":"F-G-6","b":"F","a":6,"al":"6세","g":"G","n":1},{"c":"F-B-7","b":"F","a":7,"al":"7세","g":"B","n":1},{"c":"F-G-8","b":"F","a":8,"al":"8세","g":"G","n":3},{"c":"F-G-9","b":"F","a":9,"al":"9세","g":"G","n":1},{"c":"F-G-10","b":"F","a":10,"al":"10세","g":"G","n":6},{"c":"F-B-11","b":"F","a":11,"al":"11세","g":"B","n":3},{"c":"F-G-11","b":"F","a":11,"al":"11세","g":"G","n":2},{"c":"F-B-12","b":"F","a":12,"al":"12세","g":"B","n":4},{"c":"F-G-12","b":"F","a":12,"al":"12세","g":"G","n":7},{"c":"F-B-13","b":"F","a":13,"al":"13세","g":"B","n":2},{"c":"F-G-13","b":"F","a":13,"al":"13세","g":"G","n":2},{"c":"F-B-14","b":"F","a":14,"al":"14세","g":"B","n":5},{"c":"F-G-14","b":"F","a":14,"al":"14세","g":"G","n":3},{"c":"F-B-15","b":"F","a":15,"al":"15세","g":"B","n":3},{"c":"F-G-15","b":"F","a":15,"al":"15세","g":"G","n":3},{"c":"F-B-16","b":"F","a":16,"al":"16세","g":"B","n":2},{"c":"F-G-16","b":"F","a":16,"al":"16세","g":"G","n":2},{"c":"F-B-17","b":"F","a":17,"al":"17세","g":"B","n":1},{"c":"F-G-17","b":"F","a":17,"al":"17세","g":"G","n":5},{"c":"F-G-?","b":"F","a":null,"al":"미상","g":"G","n":1}];
+const GL={G:'여자',B:'남자','?':'성별 미확인'};
+const TEAMS=[
+ {id:'1',b:'B',label:'1팀',range:'Bridge River 0–8세',test:g=>g.b==='B'&&g.a<=8},
+ {id:'2',b:'B',label:'2팀',range:'Bridge River 9–14세',test:g=>g.b==='B'&&g.a>=9&&g.a<=14},
+ {id:'3',b:'B',label:'3팀',range:'Bridge River 15–18세',test:g=>g.b==='B'&&g.a>=15},
+ {id:'4',b:'F',label:'4팀',range:'Fountain 0–12세',test:g=>g.b==='F'&&g.a!==null&&g.a<=12},
+ {id:'5',b:'F',label:'5팀',range:'Fountain 13세 이상',test:g=>g.b==='F'&&(g.a===null||g.a>=13)}];
+const idOf=c=>c.replace(/\?/g,'U');
+for(const g of GROUPS){g.id=idOf(g.c);g.t=TEAMS.find(t=>t.test(g)).id}
+const byId=Object.fromEntries(GROUPS.map(g=>[g.id,g]));
+const KEY='gift-checklist-2026';
+let store={team:'1',items:{}};
+let storageOk=true;
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&s.items)store=s}catch(e){storageOk=false}
+const m=location.hash.match(/^#team([1-5])$/);if(m)store.team=m[1];
+if(!TEAMS.some(t=>t.id===store.team))store.team='1';
+const open=new Set();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){storageOk=false;notice()}}
+function notice(){const n=document.getElementById('notice');n.hidden=storageOk;n.textContent='이 브라우저에서는 체크가 저장되지 않아요. 사파리나 크롬에서 열어 주세요.'}
+const item=id=>store.items[id]||(store.items[id]={bought:0,note:''});
+const bought=g=>Math.min(g.n,(store.items[g.id]||{}).bought||0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function tally(fn){let n=0,b=0;for(const g of GROUPS)if(fn(g)){n+=g.n;b+=bought(g)}return[b,n]}
+function render(){
+  const inTeam=g=>g.t===store.team;
+  const [b,n]=tally(inTeam);
+  document.getElementById('count').innerHTML=`${b}<small> / ${n}개</small>`;
+  document.getElementById('bar').style.width=(n?b/n*100:0)+'%';
+  document.getElementById('chips').innerHTML=TEAMS.map(t=>{
+    const [tb,tn]=tally(g=>g.t===t.id);
+    return `<button class="chip" id="ft-${t.id}" data-team="${t.id}" aria-pressed="${store.team===t.id}" title="${t.range}"><i style="--c:var(--${t.b==='B'?'br':'fo'})"></i>${t.label}<small>${tb}/${tn}</small></button>`}).join('');
+  const secs=new Map();
+  for(const g of GROUPS.filter(inTeam)){const k=g.a===null?99:g.a;if(!secs.has(k))secs.set(k,[]);secs.get(k).push(g)}
+  const tsel=TEAMS.find(t=>t.id===store.team);
+  const focus=document.activeElement&&document.activeElement.id;
+  document.getElementById('list').innerHTML=`<h2><span>${tsel.label} · ${tsel.range}</span></h2>`+[...secs.keys()].sort((a,b)=>a-b).map(k=>{
+    const gs=secs.get(k);
+    const title=k===99?'나이 미상':k===0?'영아':k+'세';
+    const got=gs.reduce((s,g)=>s+bought(g),0),need=gs.reduce((s,g)=>s+g.n,0);
+    return `<h2><span>${title}</span><span>${got}/${need}</span></h2><div class="list">${gs.map(g=>{
+      const s=store.items[g.id]||{},b=bought(g),done=b>=g.n;
+      const sub=(done?'<span class="ok">완료</span>':`${g.n-b}개 남음`)+(s.note?` · ${esc(s.note)}`:'');
+      return `<div class="item${done?' done':''}">
+        <div class="row">
+          <button class="tag ${g.b}" id="x-${g.id}" data-more="${g.id}" aria-expanded="${open.has(g.id)}" aria-label="${g.c} 메모 열기">${g.c}</button>
+          <div class="lbl"><b>${g.al} ${GL[g.g]}</b><span>${sub}</span></div>
+          <div class="step">
+            <button id="m-${g.id}" data-act="minus" data-id="${g.id}" aria-label="${g.c} 하나 빼기"${b<=0?' disabled':''}>−</button>
+            <output>${b}/${g.n}</output>
+            <button class="plus" id="p-${g.id}" data-act="plus" data-id="${g.id}" aria-label="${g.c} 하나 더하기"${done?' disabled':''}>+</button>
+          </div>
+        </div>
+        <div class="more"${open.has(g.id)?'':' hidden'}>
+          <input id="n-${g.id}" data-id="${g.id}" placeholder="산 물건 메모" value="${esc(s.note||'')}">
+          <button class="all" id="a-${g.id}" data-act="all" data-id="${g.id}">${done?'완료 취소':'모두 구매'}</button>
+        </div>
+      </div>`}).join('')}</div>`}).join('');
+  if(focus){const x=document.getElementById(focus);if(x)x.focus({preventScroll:true})}
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('button');if(!t)return;
+  if(t.dataset.team){store.team=t.dataset.team;save();history.replaceState(null,'','#team'+store.team);render();window.scrollTo({top:0});return}
+  if(t.dataset.more){const id=t.dataset.more;open.has(id)?open.delete(id):open.add(id);render();return}
+  const g=byId[t.dataset.id];if(!g)return;const b=bought(g),it=item(g.id);
+  if(t.dataset.act==='plus'&&b<g.n)it.bought=b+1;
+  if(t.dataset.act==='minus'&&b>0)it.bought=b-1;
+  if(t.dataset.act==='all')it.bought=b>=g.n?0:g.n;
+  save();render();
+});
+document.addEventListener('change',e=>{const t=e.target,g=byId[t.dataset.id];if(!g)return;item(g.id).note=t.value.trim().slice(0,200);save();render()});
+window.addEventListener('hashchange',()=>{const m=location.hash.match(/^#team([1-5])$/);if(m){store.team=m[1];save();render()}});
+notice();render();
+</script>
+</body>
+</html>
